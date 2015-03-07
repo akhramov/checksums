@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 2.1.0
+  - rbx-2
+  - ree
+script: 'bundle exec rake spec'
+
+notifications:
+  email:
+    recipients:
+      - futu.fata@gmail.com
+    on_failure: change
+    on_success: never
