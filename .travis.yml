@@ -2,7 +2,6 @@ language: ruby
 rvm:
   - 2.1.0
   - rbx-2
-  - ree
 script: 'bundle exec rake spec'
 
 notifications:
