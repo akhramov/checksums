@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/akhramov/checksums/status.png)](https://drone.io/github.com/akhramov/checksums/latest)
+
 # Checksum
 
 A Ruby library containing most popular checksums.
