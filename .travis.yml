@@ -1,15 +1,17 @@
 language: ruby
-before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq ruby-dev
+script: bundle exec rake spec
 rvm:
-  - 2.1.0
-  - rbx-2
-script: 'bundle exec rake spec'
-
-notifications:
-  email:
-    recipients:
-      - futu.fata@gmail.com
-    on_failure: change
-    on_success: never
+  - "1.9.3"
+  - "1.8.7"
+  - "2.0.0"
+  - "2.1"
+  - "ruby-head"
+  - "rbx-2.1.1"
+  - "rbx"
+matrix:
+  allow_failures:
+    - rvm: "rbx-2.1.1"
+    - rvm: "rbx"
+    - rvm: "rbx-head"
+    - rvm: "1.8.7"
+    - rvm: "1.9.3"
