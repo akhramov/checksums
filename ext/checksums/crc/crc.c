@@ -9,27 +9,41 @@ gen_table(int polynomial, int size)
 	for (int i = 0; i < 256; i++) {
 		rem = i; 
 		for (int j = 0; j < 8; j++) {
-			REMAINDER(rem, 0xedb88320);
+			REMAINDER(rem, polynomial);
 		}
 		table[i] = UNSET_BITS(rem, size);
-	}
 
+	}
 }
 
-uint32_t
-crc32(const unsigned char *buf)
+uintmax_t
+crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, int invert)
 {
-	uint32_t crc = 0;
+	// 0xedb88320
+	// 32
+	uintmax_t crc = init;
 	size_t len = strlen(buf);
-	uint8_t octet;
  
- 	gen_table(0xedb88320, 32);
+ 	gen_table(polynomial, size);
  
-	crc = ~crc;
-	char *q = buf + len;
-	for (char *p = buf; p < q; p ++) {
-		octet = *p;
-		crc = (crc >> 8) ^ table[(crc & 0xff) ^ octet];
+	while (len --) {
+		crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
 	}
-	return ~crc;
+
+	return REM_LEFTMOST_BITS(invert ? ~crc : crc, size);
+}
+
+uint16_t
+crc16(const unsigned char *buf)
+{
+	uint16_t crc = 0;
+	size_t len = strlen(buf);
+ 
+ 	gen_table(0xA001, 16);
+
+	while(len --) {
+		crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
+	}
+
+	return crc;
 }
