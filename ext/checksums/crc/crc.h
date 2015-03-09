@@ -10,7 +10,7 @@
 #define UNSET_BITS(elem, size) ((elem) & (ULONG_MAX >> REST(size)))
 #define REM_LEFTMOST_BITS(elem, size) (((elem) <<  REST(size)) >> (REST(size)))
 
-uintmax_t crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, int invert);
+uintmax_t crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, uintmax_t xor);
 uint16_t crc16(const unsigned char *data);
 
 #endif

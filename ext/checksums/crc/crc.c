@@ -17,7 +17,7 @@ gen_table(int polynomial, int size)
 }
 
 uintmax_t
-crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, int invert)
+crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, uintmax_t xor)
 {
 	// 0xedb88320
 	// 32
@@ -30,7 +30,7 @@ crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t siz
 		crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
 	}
 
-	return REM_LEFTMOST_BITS(invert ? ~crc : crc, size);
+	return REM_LEFTMOST_BITS(crc ^ xor, size);
 }
 
 uint16_t

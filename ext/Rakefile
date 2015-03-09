@@ -6,4 +6,5 @@ options = ->(t) do
   t.ldflags << '-arch x86_64 -arch i386' if t.platform.mac?
 end
 
-FFI::Compiler::CompileTask.new('checksums', &options)
+FFI::Compiler::CompileTask.new('crc', &options)
+FFI::Compiler::CompileTask.new('bsd', &options)
