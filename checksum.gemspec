@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'A Ruby library for checksums calculation'
   spec.homepage      = 'https://github.com/akhramov/checksums'
   spec.license       = 'MIT'
-  spec.extensions << 'ext/checksums/Rakefile'
+  spec.extensions << 'ext/Rakefile'
   spec.files = %w(Rakefile checksum.gemspec) + Dir.glob("{lib,spec,ext}/**/*")
 
   spec.require_paths = ['lib', 'ext']

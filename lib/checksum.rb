@@ -7,6 +7,7 @@ module Checksum
   ffi_lib FFI::Compiler::Loader.find('checksums')
 
   attach_function :example, [], :void
+  attach_function :crc32, [:string], :size_t
   attach_function :bsd, [:string, :int], :size_t
   private_class_method :bsd
 
