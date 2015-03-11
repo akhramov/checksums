@@ -90,6 +90,12 @@ RSpec.configure do |config|
 =end
 end
 
+require 'simplecov'
+SimpleCov.start
+if ENV['CI']=='true'
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
 
 SAD_TEXT=<<-EOST
 Two gin-scented tears trickled down the sides of his nose. 
