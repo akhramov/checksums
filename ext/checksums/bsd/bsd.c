@@ -1,3 +1,10 @@
+//=======================================================================
+// Copyright Artem Khramov 2015
+// Distributed under the MIT License.
+// (See accompanying file LICENSE.txt or copy at
+//  http://opensource.org/licenses/MIT)
+//=======================================================================
+
 #include "bsd.h"
 
 #define SHIFT(elem, size) (elem) = (((elem) >> 1) | ((elem & 1) << (size) - 1))
