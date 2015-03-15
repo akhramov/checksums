@@ -17,7 +17,8 @@ module Helpers
         hash[:initial_value],
         hash[:polynomial],
         hash[:width],
-        hash[:xor]
+        hash[:xor],
+        hash[:reflected]
       ) 
     end
   end

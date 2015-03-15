@@ -10,7 +10,7 @@
 uint32_t table[256];
 
 void 
-gen_table(int polynomial, int size)
+gen_table_refl(int polynomial, int size)
 {
 	uint32_t rem;
 	for (int i = 0; i < 256; i++) {
@@ -23,34 +23,44 @@ gen_table(int polynomial, int size)
 	}
 }
 
-uintmax_t
-crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, uintmax_t xor)
+void 
+gen_table(int polynomial, int size)
 {
-	// 0xedb88320
-	// 32
-	uintmax_t crc = init;
-	size_t len = strlen(buf);
- 
- 	gen_table(polynomial, size);
- 
-	while (len --) {
-		crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
+	uint32_t rem, j, i;
+	for (i = 0; i < 256; i++) {
+		rem = i << size - 8;
+		for (j = 0; j < 8; j++ ) {
+			if (rem & LEFTMOST_BIT(size)) {
+				rem = (rem << 1) ^ polynomial;
+			} else {
+				rem = rem << 1;
+			}
+		}
+		table[i] = rem;
 	}
-
-	return REM_LEFTMOST_BITS(crc ^ xor, size);
 }
 
-uint16_t
-crc16(const unsigned char *buf)
+
+
+uintmax_t
+crc(const unsigned char *buf, uintmax_t init, uintmax_t polynomial, uint32_t size, uintmax_t xor, short reflected)
 {
-	uint16_t crc = 0;
+	uintmax_t crc = init;
 	size_t len = strlen(buf);
- 
- 	gen_table(0xA001, 16);
 
-	while(len --) {
-		crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
-	}
+	if (len) {
+		if (reflected) {
+	 		gen_table_refl(polynomial, size);	
+			while (len --) {
+				crc = (crc >> 8) ^ table[(crc & 0xFF) ^ *buf++];
+			}
+	 	} else {
+			gen_table(polynomial, size);		 
+			while (len --) {
+				crc = (crc << 8) ^ table[((crc >> size - 8) ^ *buf++) & 0xFF];
+			}
+	 	}
+ 	}
 
-	return crc;
+	return REM_LEFTMOST_BITS(crc ^ xor, size);
 }
